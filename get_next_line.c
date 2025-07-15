@@ -6,7 +6,7 @@
 /*   By: rnihei <rnihei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 04:27:09 by rnihei            #+#    #+#             */
-/*   Updated: 2025/07/16 04:27:10 by rnihei           ###   ########.fr       */
+/*   Updated: 2025/07/16 05:40:17 by rnihei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,29 @@
 char	*ft_extract_line(char *saved)
 {
 	int		i;
+	int		j;
 	char	*line;
 
-	if (saved == 0)
+	if (!saved || !saved[0])
 		return (NULL);
 	i = 0;
-	if (saved[i] == 0)
-		return (NULL);
-	while (saved[i] != 0 && saved[i] != '\n')
+	while (saved[i] && saved[i] != '\n')
 		i++;
-	if (saved[i] == '\n')
-		i++;
-	line = (char *)malloc(sizeof(char) * (i + 1));
-	if (line == 0)
+	line = (char *)malloc(sizeof(char) * (i + (saved[i] == '\n') + 1));
+	if (!line)
 		return (NULL);
-	i = 0;
-	while (saved[i] != 0 && saved[i] != '\n')
+	j = 0;
+	while (j < i)
 	{
-		line[i] = saved[i];
-		i++;
+		line[j] = saved[j];
+		j++;
 	}
 	if (saved[i] == '\n')
 	{
-		line[i] = '\n';
-		i++;
+		line[j] = '\n';
+		j++;
 	}
-	line[i] = '\0';
+	line[j] = '\0';
 	return (line);
 }
 
@@ -50,27 +47,23 @@ char	*ft_save_remainder(char *saved)
 	int		j;
 	char	*remainder;
 
-	if (saved == 0)
+	if (!saved)
 		return (NULL);
 	i = 0;
-	while (saved[i] != 0 && saved[i] != '\n')
+	while (saved[i] && saved[i] != '\n')
 		i++;
-	if (saved[i] == 0)
+	if (!saved[i])
 	{
 		free(saved);
 		return (NULL);
 	}
 	remainder = (char *)malloc(sizeof(char) * (ft_strlen(saved) - i + 1));
-	if (remainder == 0)
+	if (!remainder)
 		return (NULL);
 	i++;
 	j = 0;
-	while (saved[i] != 0)
-	{
-		remainder[j] = saved[i];
-		j++;
-		i++;
-	}
+	while (saved[i])
+		remainder[j++] = saved[i++];
 	remainder[j] = '\0';
 	free(saved);
 	return (remainder);
@@ -82,10 +75,10 @@ char	*ft_read_file(int fd, char *saved)
 	int		bytes_read;
 
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (buffer == 0)
+	if (!buffer)
 		return (NULL);
 	bytes_read = 1;
-	while ((saved == 0 || ft_strchr(saved, '\n') == 0) && bytes_read != 0)
+	while ((!saved || !ft_strchr(saved, '\n')) && bytes_read != 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
@@ -109,7 +102,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	saved = ft_read_file(fd, saved);
-	if (saved == 0)
+	if (!saved)
 		return (NULL);
 	line = ft_extract_line(saved);
 	saved = ft_save_remainder(saved);
