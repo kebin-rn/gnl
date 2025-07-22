@@ -50,7 +50,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*new_str;
 	size_t	i;
@@ -59,9 +59,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
+		if (!s1)
+			return (NULL);
+		s1[0] = '\0';
 	}
-	if (!s1)
-		return (NULL);
 	if (!s1 || !s2)
 		return (NULL);
 	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);

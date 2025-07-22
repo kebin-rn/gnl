@@ -13,7 +13,7 @@ int	main(void)
 	int		flag;
 
 	fd = open("./test.txt", O_RDONLY);
-	flag = 3;
+	flag = 1;
 	while (flag)
 	{
 		line = get_next_line(fd);
@@ -21,7 +21,6 @@ int	main(void)
 			return (0);
 		printf("%s", line);
 		free(line);
-		flag--;
 	}
 	while ((line = get_next_line(fd)) != NULL)
 		free(line);

@@ -88,7 +88,7 @@ char	*ft_read_file(int fd, char *saved)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		saved = ft_strjoin(saved, buffer);
+		saved = ft_strjoin_gnl(saved, buffer);
 	}
 	free(buffer);
 	return (saved);
