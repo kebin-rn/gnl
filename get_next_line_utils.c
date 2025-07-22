@@ -6,7 +6,7 @@
 /*   By: rnihei <rnihei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 15:47:05 by rnihei            #+#    #+#             */
-/*   Updated: 2025/07/07 15:47:22 by rnihei           ###   ########.fr       */
+/*   Updated: 2025/07/22 13:15:41 by rnihei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
